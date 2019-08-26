@@ -17,4 +17,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Logged in routes
+Route::group(['middleware' => 'web'], function ($router) {
+    $router->get('/home', 'SpaController@index')->name('home');
+    $router->get('users/current', 'UserController@current');
+
+    $router->resource('posts', 'PostController');
+});
+
+Route::get('/{any}', 'SpaController@index')->where('any', '.*');
