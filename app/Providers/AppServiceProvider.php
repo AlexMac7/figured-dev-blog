@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->loadMigrationsFromSubDirectories();
     }
 
     /**
@@ -24,5 +24,21 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    /**
+     * Retrieves the migrations folder sub directories and passes them to Laravel's loadMigrationsFrom method to be registered.
+     *
+     * https://stackoverflow.com/questions/21641606/laravel-running-migrations-on-app-database-migrations-folder-recursively
+     *
+     * @return void
+     */
+    protected function loadMigrationsFromSubDirectories()
+    {
+        $mainPath = database_path('migrations');
+        $directories = glob($mainPath. '/mongodb', GLOB_ONLYDIR);
+        $paths = array_merge([$mainPath], $directories);
+
+        $this->loadMigrationsFrom($paths);
     }
 }
