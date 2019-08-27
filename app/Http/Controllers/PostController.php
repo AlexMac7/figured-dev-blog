@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePost;
+use App\Http\Requests\UpdatePost;
 use App\Post;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
@@ -33,19 +34,14 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StorePost  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
-        $validatedData = $request->validate([
-            'title' => ['required', 'string', 'min:2'],
-            'description' => ['required', 'string', 'min:2']
-        ]);
-
         Post::create([
-            'title' => $validatedData['title'],
-            'description' => $validatedData['description'],
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
             'user_id' => auth()->user()->id
         ]);
 
@@ -70,24 +66,17 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UpdatePost $request
      * @param  str  $postId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $postId)
+    public function update(UpdatePost $request, $postId)
     {
         $post = Post::findOrFail($postId);
 
-        abort_unless(Gate::allows('owns-post', $post), 403);
-
-        $validatedData = $request->validate([
-            'title' => ['required', 'string', 'min:2'],
-            'description' => ['required', 'string', 'min:2']
-        ]);
-
         $post->update([
-            'title' => $validatedData['title'],
-            'description' => $validatedData['description']
+            'title' => $request->input('title'),
+            'description' => $request->input('description')
         ]);
 
         return response()->json([], 204);
