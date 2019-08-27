@@ -4,7 +4,7 @@
             <div class="col-md-10 px-0">
                 <div v-if="user">
                     <router-link :to="{ name: 'postList' }">
-                        <button type="submit" class="btn btn-primary">View All Posts</button>
+                        <button type="submit" class="btn btn-info">View All Posts</button>
                     </router-link>
 
                     <router-link :to="{ name: 'createPost' }">
@@ -22,6 +22,8 @@
     import PostList from './PostList';
 
     export default {
+        name: "app",
+
         components: { PostList },
 
         data() {

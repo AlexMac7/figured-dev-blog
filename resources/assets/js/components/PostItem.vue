@@ -7,8 +7,8 @@
         </div>
 
         <div v-if="canEditAndDelete">
-            <router-link v-bind="post" post="post" :to="{ name: 'editPost', params: { id: post._id } }">
-                <button type="submit" class="btn btn-secondary">Edit Post</button>
+            <router-link :to="{ name: 'editPost', params: { id: post._id } }">
+                <button type="submit" class="btn btn-primary">Edit Post</button>
             </router-link>
 
             <button type="submit" class="btn btn-danger" @click="deletePost(post._id)">Delete Post</button>
@@ -22,11 +22,12 @@
 
         props: {
             post: {
-                type: Object
+                type: Object,
+                required: false
             },
-
             user: {
-                type: Object
+                type: Object,
+                required: false
             }
         },
 

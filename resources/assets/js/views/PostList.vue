@@ -1,11 +1,11 @@
 <template>
     <div class="col-md-10">
         <div class="row py-3">
-            <post-item v-for="(post, index) in posts" :key="index" :post="post" :user="user" @refreshPosts="fetch" />
+            <post-item v-for="(post, index) in posts" :key="index" :post="post" :user="user" @refreshPosts="fetch"></post-item>
         </div>
 
         <div class="row">
-            <paginator-buttons :resource-response="resourceResponse" @changePage="fetch($event)" />
+            <paginator-buttons :resource-response="resourceResponse" @changePage="fetch($event)"></paginator-buttons>
         </div>
     </div>
 </template>
@@ -19,11 +19,13 @@
 
         components: {
             PaginatorButtons,
-            PostItem },
+            PostItem
+        },
 
         props: {
             user: {
-                type: Object
+                type: Object,
+                required: false
             }
         },
 
