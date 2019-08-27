@@ -68,7 +68,37 @@ class PostControllerTest extends TestCase
             ]);
     }
 
-    // TODO: Test show method
+    /** @test */
+    public function authenticated_user_can_get_specific_post()
+    {
+        $response = $this->actingAs($this->user)->json('GET', sprintf('/posts/%s', $this->post->id));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                '_id' => $this->post->_id,
+                'user_id' => $this->post->user_id,
+                'description' => $this->post->description,
+            ]);
+    }
+
+    /** @test */
+    public function unauthenticated_user_can_not_get_specific_post()
+    {
+        $response = $this->json('GET', sprintf('/posts/%s', $this->post->id));
+
+        $response->assertStatus(401);
+    }
+
+    /** @test */
+    public function authenticated_user_can_not_get_another_users_specific_post()
+    {
+        $post = factory(Post::class)->create();
+
+        $response = $this->actingAs($this->user)->json('GET', sprintf('/posts/%s', $post->id));
+
+        $response->assertStatus(403);
+    }
 
     /** @test */
     public function authenticated_user_can_create_post()
