@@ -45,7 +45,7 @@
                         this.$emit('refreshPosts');
                     })
                     .catch(error => {
-                        console.log(error, 'ERROR');
+                        console.log(error.response);
                     });
             }
         }

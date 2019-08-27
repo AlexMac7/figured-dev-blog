@@ -3,6 +3,12 @@
         <h1>{{ heading }}</h1>
 
         <form class="w-100">
+            <div class="alert alert-danger" v-if="errors">
+                <p class="m-0" v-for="error in errors">
+                    {{ error[0] }}
+                </p>
+            </div>
+
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" id="title" placeholder="Post Title" v-model="title">
@@ -28,6 +34,10 @@
                 required: true
             },
             post: {
+                type: Object,
+                required: false
+            },
+            errors: {
                 type: Object,
                 required: false
             }

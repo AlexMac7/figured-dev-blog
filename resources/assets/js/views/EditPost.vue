@@ -1,6 +1,6 @@
 <template>
     <div class="col-md-10">
-        <post-form :heading="'Edit Post'" :post="post" @submit="submit($event)"></post-form>
+        <post-form :heading="'Edit Post'" :post="post" :errors="errors" @submit="submit($event)"></post-form>
     </div>
 </template>
 
@@ -14,7 +14,8 @@
 
         data() {
             return {
-                post: null
+                post: null,
+                errors: null,
             }
         },
 
@@ -30,7 +31,7 @@
                         this.post = response.data.post;
                     })
                     .catch(error => {
-                        console.log(error, 'ERROR');
+                        console.log(error.response);
                     });
             },
 
@@ -44,7 +45,7 @@
                         this.$router.push({ name: 'postList' });
                     })
                     .catch(error => {
-                        console.log(error, 'ERROR');
+                        this.errors = error.response.data.errors;
                     });
             }
         }

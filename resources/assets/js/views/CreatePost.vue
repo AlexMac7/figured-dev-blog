@@ -1,6 +1,6 @@
 <template>
     <div class="col-md-10">
-        <post-form :heading="'Create A New Post'" @submit="submit($event)"></post-form>
+        <post-form :heading="'Create A New Post'" :errors="errors" @submit="submit($event)"></post-form>
     </div>
 </template>
 
@@ -9,6 +9,12 @@
 
     export default {
         name: "create-post",
+
+        data() {
+            return {
+                errors: null
+            }
+        },
 
         components: { PostForm },
 
@@ -23,7 +29,7 @@
                         this.$router.push({ name: 'postList' });
                     })
                     .catch(error => {
-                        console.log(error, 'ERROR');
+                        this.errors = error.response.data.errors;
                     });
             }
         }

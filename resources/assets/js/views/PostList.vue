@@ -53,7 +53,7 @@
                         this.posts = this.resourceResponse.data;
                     })
                     .catch(error => {
-                        console.log(error, 'ERROR');
+                        console.log(error);
                     });
             }
         }
