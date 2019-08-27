@@ -62,7 +62,7 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($postId);
 
-        abort_unless(Gate::allows('update-post', $post), 403);
+        abort_unless(Gate::allows('owns-post', $post), 403);
 
         return response()->json(['post' => $post], 200);
     }
@@ -78,7 +78,7 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($postId);
 
-        abort_unless(Gate::allows('update-post', $post), 403);
+        abort_unless(Gate::allows('owns-post', $post), 403);
 
         $validatedData = $request->validate([
             'title' => ['required', 'string', 'min:2'],
@@ -103,7 +103,7 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($postId);
 
-        abort_unless(Gate::allows('delete-post', $post), 403);
+        abort_unless(Gate::allows('owns-post', $post), 403);
 
         $post->delete();
 

@@ -25,12 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // TODO: Could refactor both into one, 'alter-post'
-        Gate::define('update-post', function ($user, $post) {
-            return $user->id == $post->user_id;
-        });
-
-        Gate::define('delete-post', function ($user, $post) {
+        Gate::define('owns-post', function ($user, $post) {
             return $user->id == $post->user_id;
         });
     }
