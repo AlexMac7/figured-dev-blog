@@ -1,15 +1,16 @@
 <template>
     <div class="col-md-10">
-        <div class="row py-3">
-            <h1>Edit Post</h1>
-            <!-- TODO -->
-        </div>
+        <post-form :heading="'Edit Post'" :post="post" @submit="submit($event)"></post-form>
     </div>
 </template>
 
 <script>
+    import PostForm from '../components/PostForm';
+
     export default {
         name: "edit-post",
+
+        components: { PostForm },
 
         data() {
             return {
@@ -26,7 +27,21 @@
                 axios
                     .get(`/posts/${this.$route.params.id}`)
                     .then(response => {
-                        this.post = response.data;
+                        this.post = response.data.post;
+                    })
+                    .catch(error => {
+                        console.log(error, 'ERROR');
+                    });
+            },
+
+            submit(data) {
+                axios
+                    .patch(`/posts/${this.$route.params.id}`, {
+                        title: data.title,
+                        description: data.description
+                    })
+                    .then(response => {
+                        this.$router.push({ name: 'postList' });
                     })
                     .catch(error => {
                         console.log(error, 'ERROR');
